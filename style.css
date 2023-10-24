@@ -1,0 +1,60 @@
+body {
+  background: linear-gradient(to right, black, rgb(50, 50, 50));
+}
+
+h1 {
+  color: aliceblue;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  text-align: center;
+}
+
+input {
+  margin: 10px 0;
+  background-color: rgb(255, 255, 255);
+  width: 160px;
+  height: 35px;
+  border: none;
+  border-radius: 5px;
+}
+
+#search-input {
+  background-color: grey;
+  border: none;
+  border-radius: 5px;
+  width: 160px;
+  padding: 7px;
+  color: white;
+}
+
+#remove {
+  background-color: rgb(157, 0, 0);
+  border: none;
+  border-radius: 5px;
+  width: 160px;
+  padding: 7px;
+  color: white;
+}
+
+#search-input:hover {
+  cursor: pointer;
+  background-color: rgb(37, 64, 163);
+  color: rgb(255, 255, 255);
+}
+
+#remove:hover {
+  cursor: pointer;
+  background-color: rgb(114, 0, 0);
+  color: rgb(255, 255, 255);
+}
+
+#gif-area {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 10px;
+}
