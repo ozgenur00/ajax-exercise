@@ -54,7 +54,13 @@ input {
 }
 
 #gif-area {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around; /* or space-between if you prefer */
 }
+
+#gif-area img {
+  margin: 8px; /* Half of the desired gap between images */
+  width: 250px;
+}
+
