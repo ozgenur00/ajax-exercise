@@ -1,50 +1,31 @@
-console.log("Let's get this party started!");
+// Get reference to HTML elements
+const $formSearch = $('.form-search');
+const $query = $('#query');
+const $gifArea = $('#gif-area');
+const $removeButton = $('#remove');
 
-let gifArea = document.getElementById('gif-area');
-let searchInput = document.getElementById('search-input');
+$formSearch.on('submit', async function (e) {
+  e.preventDefault();
 
-function addGif(res) {
-  let numResults = res.data.length;
-  if (numResults) {
-    let randomIdx = Math.floor(Math.random() * numResults);
+  let searchTerm = $query.val();
+  $query.val(''); // clear the input field
 
-    let newCol = document.createElement('div');
-    newCol.classList.add('col', 'colMargin');
+  // Make API request using Axios
+  const response = await axios.get('http://api.giphy.com/v1/gifs/search', {
+    params: {
+      q: searchTerm,
+      api_key: 'MhAodEJIJxQMxW9XqxKjyXfNYdLoOIym',
+    },
+  });
 
-    let newGif = document.createElement('img');
-    newGif.src = res.data[randomIdx].images.original.url;
-    newGif.style.width = '100%';
-
-    newCol.appendChild(newGif);
-    gifArea.appendChild(newCol);
-  }
-}
-
-document.querySelector('form').addEventListener('submit', async function (e) {
-  e.preventDefault(); // prevent page refresh on form submit
-
-  let searchTerm = searchInput.ariaValueMax;
-  searchInput.value = '';
-
-  try {
-    let response = await fetch(
-      'http://api.giphy.com/v1/gifs/search?q=' +
-        encodeURIComponent(searchTerm) +
-        '&api_key=MhAodEJIJxQMxW9XqxKjyXfNYdLoOIym'
-    );
-    let data = await response.json();
-    addGif(data);
-  } catch (error) {
-    console.error('Error fetching Giphy API:', error);
+  // Check if there are results, then append the first GIF to the page
+  if (response.data.data.length) {
+    let gifUrl = response.data.data[0].images.original.url;
+    $gifArea.append(`<img src="${gifUrl}" alt="${searchTerm} gif">`);
   }
 });
 
-document.getElementById('remove').addEventListener('click', function () {
-  while (gifArea.firstChild) {
-    gifArea.removeChild(gifArea.firstChild);
-  }
+$removeButton.on('click', function () {
+  $gifArea.empty(); // Remove all GIFs
 });
-// - Allow the user to search for a GIF and when the form is submitted, make an AJAX request to the Giphy API and return a single GIF
-// - Once the Giphy API has responded with data, append the GIF to the page
-// - Allow the user to search for as many GIFs as they would like and keep appending them to the page
-// - Allow the user to remove all of the GIFs by clicking a button
+
